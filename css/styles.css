@@ -1,0 +1,29 @@
+#main-content {
+  margin-top: 2em;
+}
+
+.custom-main-logo-text {
+  margin-left: 0.5em;
+}
+
+article.tweet {
+  min-width: 15em;
+}
+
+#tweet-form {
+  min-width: 20em;
+}
+
+#img-container img {
+  max-width: 100%;
+}
+
+i.icons i.loading {
+  animation-duration: 15s;
+  animation-timing-function: linear;
+  animation-delay: 0s;
+  animation-direction: normal;
+  animation-fill-mode: none;
+  animation-iteration-count: infinite;
+  animation-play-state: running;
+}

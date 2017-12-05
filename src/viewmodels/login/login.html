@@ -1,0 +1,37 @@
+<template>
+  <require from="./../../partials/formerror.html"></require>
+  <require from="./../../partials/tweeter-card.html"></require>
+
+  <section class="ui raised segment">
+    <div class="ui two column grid">
+
+      <div class="middle aligned column">
+        <div class="ui fluid form">
+          <div class="ui raised segment">
+
+            <form submit.delegate="login($event)">
+              <h3 class="ui header">Log in to Tweeter</h3>
+              <div class="field">
+                <label>Email</label>
+                <input placeholder="Email" type="text" name="email" value.bind="email" autofocus>
+              </div>
+              <div class="field">
+                <label>Password</label> <input type="password" name="password" value.bind="password">
+              </div>
+              <button class="ui orange submit button">Login</button>
+            </form>
+            <formerror></formerror>
+
+          </div>
+        </div>
+      </div>
+
+      <aside class="column">
+        <tweeter-card containerless></tweeter-card>
+      </aside>
+
+    </div>
+
+  </section>
+
+</template>

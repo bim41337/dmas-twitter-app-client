@@ -1,0 +1,19 @@
+<template>
+  <span class="ui message">${hasErrors}</span>
+  <div show.bind="hasErrors" class="ui negative message transition">
+    <i class="close icon"></i>
+    <div class="header">
+      Validation error!
+      <i class="frown large icon"></i>
+    </div>
+    <ul class="list">
+      <li repeat.for="err of formErrors">${err}</li>
+    </ul>
+  </div>
+
+  <script type="text/javascript">
+    $(".close.icon").click(function () {
+      $(this).parent(".message").fadeOut("fast");
+    });
+  </script>
+</template>

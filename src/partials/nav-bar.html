@@ -1,0 +1,11 @@
+<template bindable="router">
+  <nav class="ui main menu">
+    <div class="header item" href="/">
+      <img class="logo" src="images/logo-128.png" />
+      <span class="custom-main-logo-text">Tweeter</span>
+    </div>
+    <div class="right menu">
+        <a repeat.for="row of router.navigation" class="${row.isActive ? 'active header' : ''} item"  href.bind="row.href">${row.title}</a>
+    </div>
+  </nav>
+</template>
