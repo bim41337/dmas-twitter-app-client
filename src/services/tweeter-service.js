@@ -26,6 +26,7 @@ export default class TweeterService {
       followings: []
     };
     this.httpClient.post('/api/users', newUser).then(res => {
+      console.log(res);
       this.router.navigate('login');
     });
   }

@@ -1,33 +1,31 @@
 <template>
   <require from="./../../partials/formerror.html"></require>
-  <require from="./../../partials/tweeter-card.html"></require>
 
   <section class="ui raised segment">
-    <div class="ui two column grid">
+    <div class="ui middle aligned two column grid">
 
-      <div class="middle aligned column">
-        <div class="ui fluid form">
-          <div class="ui raised segment">
+      <div class="column">
+        <div class="ui fluid raised form segment">
 
             <form submit.delegate="login($event)">
               <h3 class="ui header">Log in to Tweeter</h3>
               <div class="field">
                 <label>Email</label>
-                <input placeholder="Email" type="text" name="email" value.bind="email" autofocus>
+                <input placeholder="Email" type="text" value.bind="email & validate">
               </div>
               <div class="field">
-                <label>Password</label> <input type="password" name="password" value.bind="password">
+                <label>Password</label> <input type="password" value.bind="password & validate">
               </div>
               <button class="ui orange submit button">Login</button>
             </form>
-            <formerror></formerror>
 
-          </div>
+            <formerror controller.bind="valContr" containerless></formerror>
+
         </div>
       </div>
 
       <aside class="column">
-        <tweeter-card containerless></tweeter-card>
+        <compose containerless view="./../../partials/tweeter-card.html"></compose>
       </aside>
 
     </div>

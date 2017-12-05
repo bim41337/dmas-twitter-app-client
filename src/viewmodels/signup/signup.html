@@ -1,10 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+<template>
+  <require from="./../../partials/formerror.html"></require>
 
-</body>
-</html>
+<section class="ui raised segment">
+  <div class="ui middle aligned two column grid">
+
+    <div class="column">
+      <div class="ui raised fluid form segment">
+
+        <form submit.delegate="register($event)">
+          <h3 class="ui header">Sign up to Tweeter</h3>
+          <div class="two fields">
+            <div class="field">
+              <label>Nickname</label>
+              <input placeholder="Your nickname" type="text" value.bind="nickname & validate" autofocus>
+            </div>
+          </div>
+          <div class="field">
+            <label>E-Mail</label>
+            <input placeholder="E-Mail Address" type="text" value.bind="email & validate">
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input type="password" value.bind="password & validate">
+          </div>
+          <button class="ui orange submit button">Submit</button>
+        </form>
+
+        <formerror controller.bind="valContr" containerless></formerror>
+
+      </div>
+    </div>
+
+    <aside class="column">
+      <compose containerless view="./../../partials/tweeter-card.html"></compose>
+    </aside>
+
+  </div>
+</section>
+
+</template>

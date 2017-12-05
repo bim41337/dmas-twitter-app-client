@@ -1,35 +1,31 @@
 import {inject} from 'aurelia-framework';
 import TweeterService from '../../services/tweeter-service';
-import {EventAggregator} from 'aurelia-event-aggregator';
-import {LoginStatus} from '../../services/messages';
+import {ValidationControllerFactory, ValidationRules, validateTrigger} from 'aurelia-validation';
 
-@inject(TweeterService, EventAggregator)
+@inject(TweeterService, ValidationControllerFactory)
 export class Login {
 
   email = '';
   password = '';
-  hasErrors = false;
-  formErrors = [];
 
-  constructor(ts, ea) {
+  constructor(ts, vcf) {
     this.service = ts;
-    this.evtAgr = ea;
+    this.valContr = vcf.createForCurrentScope();
+    this.valContr.validateTrigger = validateTrigger.change;
+  }
 
-    this.evtAgr.subscribe(LoginStatus, msg => {
-      let content = msg.status.message;
-      if (msg.status.success === false) {
-        this.formErrors.push(content);
-        this.hasErrors = true;
-      } else {
-        this.hasErrors = false;
-        this.formErrors = [];
+  login(e) {
+    this.valContr.validate().then(result => {
+      if (result.valid) {
+        console.log(`Logging in: ${this.email}`);
+        this.service.login(this.email, this.password);
       }
     });
   }
 
-  login(e) {
-    console.log(`Logging in: ${this.email}`);
-    this.service.login(this.email, this.password);
-  }
-
 }
+
+ValidationRules
+  .ensure('email').email().required()
+  .ensure('password').required()
+  .on(Login);
