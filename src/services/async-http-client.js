@@ -45,10 +45,12 @@ export default class AsyncHttpClient {
 
   isAuthenticated() {
     let authenticated = false;
-    if (localStorage.tweeter !== 'null') {
+    let tweeter = localStorage.tweeter;
+
+    if (tweeter !== undefined && tweeter !== 'null') {
       authenticated = true;
       this.http.configure(http => {
-        const auth = JSON.parse(localStorage.tweeter);
+        const auth = JSON.parse(tweeter);
         http.withHeader('Authorization', 'bearer ' + auth.token);
       });
     }

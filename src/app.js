@@ -1,49 +1,65 @@
 import {inject, Aurelia} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {LoginStatus} from './services/messages';
-// import DonationService from './services/donation-service';
+import TweeterService from './services/tweeter-service';
 
-@inject(Aurelia, EventAggregator)
+@inject(Aurelia, TweeterService, EventAggregator)
 export class App {
 
-  constructor(au, ea) {
+  constructor(au, ts, ea) {
     this.au = au;
-    // this.ds = ds;
+    this.service = ts;
+
     ea.subscribe(LoginStatus, msg => {
+      this.router.reset();
+      this.router.navigate('', { replace: true, trigger: false });
       if (msg.status.success === true) {
-        this.router.navigate('/', { replace: true, trigger: false });
-        this.router.reset();
-        au.setRoot('app');
-      }
-      /*
-      if (msg.status === true) {
         au.setRoot('home');
       } else {
         au.setRoot('app');
       }
-      */
     });
   }
 
-  /*
   attached() {
-    if (this.ds.isAuthenticated()) {
+    if (this.service.isAuthenticated()) {
+      let userId = JSON.parse(localStorage.tweeter).userId;
+      this.service.getUserData(userId);
       this.au.setRoot('home').then(() => {
-        this.router.navigateToRoute('dashboard');
+        this.router.navigateToRoute('home');
       });
     }
   }
-  */
 
   configureRouter(config, router) {
     config.map([
-      { route: ['', 'home'], name: 'home', moduleId: 'viewmodels/home/home', nav: true, title: 'Home' },
-      { route: 'login', name: 'login', moduleId: 'viewmodels/login/login', nav: true, title: 'Login' },
-      { route: 'signup', name: 'signup', moduleId: 'viewmodels/signup/signup', nav: true, title: 'Signup' }
+      {
+        route: ['', 'welcome'],
+        name: 'home',
+        moduleId: 'viewmodels/welcome/welcome',
+        nav: true,
+        title: 'Welcome',
+        settings: { root: true }
+      },
+      {
+        route: 'login',
+        name: 'login',
+        moduleId: 'viewmodels/login/login',
+        nav: true,
+        title: 'Login',
+        settings: { root: true }
+      },
+      {
+        route: 'signup',
+        name: 'signup',
+        moduleId: 'viewmodels/signup/signup',
+        nav: true,
+        title: 'Signup',
+        settings: { root: true }
+      }
     ]);
     this.router = router;
 
     config.mapUnknownRoutes('');
-    config.fallbackRoute('');
   }
 }

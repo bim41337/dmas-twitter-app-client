@@ -1,0 +1,8 @@
+<template>
+  <require from="./partials/nav-bar.html"></require>
+
+  <section class="ui container page-host" id="main-content">
+    <nav-bar containerless router.bind="router" user-data.bind="service.userData"></nav-bar>
+    <router-view></router-view>
+  </section>
+</template>

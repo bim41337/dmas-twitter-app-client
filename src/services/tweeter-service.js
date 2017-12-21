@@ -1,8 +1,8 @@
 import {inject} from 'aurelia-framework';
-import {TotalUpdate} from './messages';
 import {Router} from 'aurelia-router';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import AsyncHttpClient from './async-http-client';
+import {LoginStatus} from './messages';
 
 @inject(EventAggregator, AsyncHttpClient, Router)
 export default class TweeterService {
@@ -34,6 +34,7 @@ export default class TweeterService {
   getUserData(userId) {
     this.httpClient.get('/api/users/' + userId).then(res => {
       this.userData = res.content;
+      console.log('Set active user: ' + res.content.nickname);
     });
   }
 
