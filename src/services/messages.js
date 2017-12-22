@@ -3,3 +3,15 @@ export class LoginStatus {
     this.status = status;
   }
 }
+
+export class UserUpdate {
+  constructor(changedUser) {
+    this.changedUser = changedUser;
+  }
+}
+
+export class TweetUpdate {
+  constructor(section) {
+    this.tweetSection = section;
+  }
+}

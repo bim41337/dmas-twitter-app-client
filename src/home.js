@@ -34,6 +34,22 @@ export class Home {
         nav: true,
         title: 'Logout',
         settings: { root: true }
+      },
+      {
+        route: 'followings',
+        name: 'followings',
+        moduleId: 'viewmodels/followings/followings',
+        nav: true,
+        title: 'Followings',
+        settings: { root: false }
+      },
+      {
+        route: 'firehose',
+        name: 'firehose',
+        moduleId: 'viewmodels/firehose/firehose',
+        nav: true,
+        title: 'Firehose',
+        settings: { root: false }
       }
     ]);
     this.router = router;

@@ -1,0 +1,41 @@
+<template>
+  <require from="./../../partials/formerror.html"></require>
+
+  <section class="ui raised segment">
+    <div class="ui middle aligned two column grid">
+
+      <div class="column">
+        <div class="ui fluid raised form segment">
+
+          <form submit.delegate="changeSettings($event)">
+            <h3 class="ui header">Change settings</h3>
+            <div class="two fields">
+              <div class="field">
+                <label>Nickname</label>
+                <input placeholder="Your nickname" type="text" value.bind="userData.nickname & validate" autofocus>
+              </div>
+            </div>
+            <div class="field">
+              <label>E-Mail</label>
+              <input placeholder="Email" type="text" value.bind="userData.email & validate">
+            </div>
+            <div class="field">
+              <label>Password</label>
+              <input type="password" value.bind="userData.password & validate">
+            </div>
+            <button class="ui orange submit button">Submit</button>
+          </form>
+          <formerror controller.bind="valContr" containerless></formerror>
+
+        </div>
+      </div>
+
+      <aside class="column">
+        <compose containerless view="./../../partials/tweeter-card.html"></compose>
+      </aside>
+
+    </div>
+
+  </section>
+
+</template>

@@ -1,5 +1,35 @@
 <template>
+  <require from="./../../partials/formerror.html"></require>
+  <require from="./../../helpers/date-format"></require>
 
-  <p>Test</p>
+  <section class="ui raised segment">
+    <div class="ui two column grid">
+
+      <div class="center aligned column">
+        <article class="ui compact segment" repeat.for="tweet of userTweets">
+          <h5 class="ui dividing header">
+            ${tweet.user.nickname}
+            <div class="sub header">
+              ${tweet.creation | dateFormat}
+            </div>
+          </h5>
+          <a class="ui top right attached label tweet-remove" data-id="${tweet._id}">
+            <i class="orange remove icon"></i>
+          </a>
+          <p>${tweet.message}</p>
+          ${tweet.image ? 'Image goes here' : 'No image'}
+        </article>
+          <div class="ui compact segment" show.bind="userTweets.length === 0">
+            <i class="meh big icon"></i>
+            No tweets available
+          </div>
+      </div>
+
+      <aside class="middle aligned column">
+        <compose containerless view="./../../partials/tweeter-card.html"></compose>
+      </aside>
+
+    </div>
+  </section>
 
 </template>

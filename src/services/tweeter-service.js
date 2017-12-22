@@ -2,7 +2,7 @@ import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import AsyncHttpClient from './async-http-client';
-import {LoginStatus} from './messages';
+import {LoginStatus, UserUpdate, TweetUpdate} from './messages';
 
 @inject(EventAggregator, AsyncHttpClient, Router)
 export default class TweeterService {
@@ -31,10 +31,29 @@ export default class TweeterService {
     });
   }
 
-  getUserData(userId) {
+  getUserData(userId, publish) {
     this.httpClient.get('/api/users/' + userId).then(res => {
-      this.userData = res.content;
       console.log('Set active user: ' + res.content.nickname);
+      this.userData = res.content;
+      if (publish === true) {
+        this.evtAgg.publish(new UserUpdate(this.userData));
+      }
+      this.getUserTweets();
+    });
+  }
+
+  getUserTweets() {
+    this.httpClient.get('/api/tweets/user/' + this.userData._id).then(res => {
+      this.userTweets = res.content;
+      this.evtAgg.publish(new TweetUpdate('user'));
+    });
+  }
+
+  changeUserData(changedUser) {
+    this.httpClient.put('/api/users/' + this.userData._id, changedUser).then(res => {
+      this.userData = res.content;
+      this.evtAgg.publish(new UserUpdate(this.userData));
+      this.router.navigate('wall');
     });
   }
 
@@ -45,7 +64,7 @@ export default class TweeterService {
     };
     this.httpClient.authenticate('/api/users/authenticate', user).then(res => {
       if (res) {
-        this.getUserData(res);
+        this.getUserData(res, true);
       }
     });
   }
