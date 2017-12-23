@@ -85,6 +85,35 @@
             "path": "../node_modules/aurelia-validation/dist/amd",
             "main": "aurelia-validation"
           },
+          {
+            "name": "moment",
+            "path": "../node_modules/moment",
+            "main": "moment"
+          },
+          {
+            "name": "moment-timezone",
+            "path": "../node_modules/moment-timezone",
+            "main": "moment-timezone"
+          },
+          {
+            "name": "base64-js",
+            "path": "../node_modules/base64-js",
+            "main": "index"
+          },
+          {
+            "name": "ieee754",
+            "path": "../node_modules/ieee754",
+            "main": "index"
+          },
+          {
+            "name": "buffer",
+            "path": "../node_modules/buffer",
+            "main": "index",
+            "deps": [
+              "base64-js",
+              "ieee754"
+            ]
+          },
           "text",
           "lodash"
         ]

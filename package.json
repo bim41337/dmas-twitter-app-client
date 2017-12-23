@@ -13,7 +13,9 @@
     "aurelia-http-client": "^1.2.1",
     "aurelia-validation": "^1.1.2",
     "bluebird": "^3.4.1",
+    "buffer": "^5.0.8",
     "lodash": "^4.17.4",
+    "moment-timezone": "^0.5.14",
     "requirejs": "^2.3.2",
     "text": "github:requirejs/text#latest"
   },

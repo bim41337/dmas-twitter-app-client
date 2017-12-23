@@ -1,11 +1,18 @@
 <template>
   <require from="./../../partials/formerror.html"></require>
   <require from="./../../helpers/date-format"></require>
+  <require from="./../../helpers/file-list-to-array"></require>
+  <require from="./../../helpers/blob-to-url"></require>
+  <require from="./../../helpers/data-uri"></require>
 
   <section class="ui raised segment">
+
+    <h3 class="ui dividing header">Your tweets</h3>
+
     <div class="ui two column grid">
 
-      <div class="center aligned column">
+      <!-- ### TWEETS ### -->
+      <div class="nine wide column">
         <article class="ui compact segment" repeat.for="tweet of userTweets">
           <h5 class="ui dividing header">
             ${tweet.user.nickname}
@@ -13,20 +20,42 @@
               ${tweet.creation | dateFormat}
             </div>
           </h5>
-          <a class="ui top right attached label tweet-remove" data-id="${tweet._id}">
+          <a class="ui top right attached label" click.delegate="removeTweet(tweet._id)">
             <i class="orange remove icon"></i>
           </a>
           <p>${tweet.message}</p>
-          ${tweet.image ? 'Image goes here' : 'No image'}
-        </article>
-          <div class="ui compact segment" show.bind="userTweets.length === 0">
-            <i class="meh big icon"></i>
-            No tweets available
+          <div class="ui medium bordered image" if.bind="tweet.image">
+            <img src.bind="tweet.image | dataUri" alt="tweet-image"/>
           </div>
+        </article>
+        <div class="ui compact segment" show.bind="userTweets.length === 0">
+          <i class="meh big icon"></i>
+          No tweets available
+        </div>
       </div>
 
-      <aside class="middle aligned column">
-        <compose containerless view="./../../partials/tweeter-card.html"></compose>
+      <!-- ### FORM ### -->
+      <aside class="seven wide centered column">
+        <div class="ui raised fluid form segment" id="tweet-form">
+          <form submit.delegate="makeTweet($event)" accept="image/jpeg" enctype="multipart/form-data">
+            <h3 class="ui header">Make a tweet!</h3>
+            <div class="ui top right attached label" id="tweet-label">${message.trim().length} / 140</div>
+            <div class="field">
+              <textarea value.bind="message & validate" maxlength="140" rows="2"></textarea>
+            </div>
+            <div class="field">
+              <input ref="fileInput" type="file" files.bind="image & validate" accept="image/jpeg"/>
+            </div>
+            <button class="ui orange ${message.length === 0 ? 'disabled' : ''} submit button">Share</button>
+            <button class="ui button" click.delegate="clearTweetForm()">Clear</button>
+          </form>
+          <div class="ui basic center aligned segment" if.bind="image.length > 0">
+            <div class="ui medium bordered image">
+              <img repeat.for="img of image | fileListToArray" src.bind="img | blobToUrl" alt="tweet-image"/>
+            </div>
+          </div>
+          <formerror controller.bind="valContr" containerless></formerror>
+        </div>
       </aside>
 
     </div>

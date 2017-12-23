@@ -2,7 +2,7 @@
   <require from="./../filters/root-item-filter"></require>
   <require from="./../filters/child-item-filter"></require>
 
-  <nav class="ui main top attached menu">
+  <nav class="ui main ${homeRoot ? 'top attached' : ''} menu">
     <div class="header item" href="/">
       <img class="logo" src="images/logo-128.png" />
       <span class="custom-main-logo-text">Tweeter</span>

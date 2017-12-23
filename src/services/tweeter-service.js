@@ -18,6 +18,19 @@ export default class TweeterService {
     this.router = rt;
   }
 
+  makeTweet(formData) {
+    this.httpClient.post('/api/tweets', formData).then(res => {
+      console.log(`New tweet ${res.content}`);
+      this.getUserTweets();
+    });
+  }
+
+  removeTweet(tweetId) {
+    this.httpClient.delete('/api/tweets/' + tweetId).then(res => {
+      this.getUserTweets();
+    });
+  }
+
   register(nickname, email, password) {
     const newUser = {
       nickname: nickname,
