@@ -2,6 +2,7 @@
 import {inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {ValidationControllerFactory, ValidationRules, validateTrigger} from 'aurelia-validation';
+import {Buffer} from 'buffer';
 import TweeterService from './../../services/tweeter-service';
 import * as moment from 'moment-timezone';
 import {TweetUpdate} from '../../services/messages';
@@ -38,19 +39,22 @@ export class Wall {
           creation: moment.tz(),
           user: this.service.userData._id
         };
+
         if (this.image) {
+          let imageInst = this.image.item(0);
           let fileReader = new FileReader();
           fileReader.onload = () => {
             customFormData.image = {
-              data: fileReader.result,
-              contentType: 'image/jpeg'
+              data: Buffer.from(fileReader.result),
+              contentType: imageInst.type
             };
             this.service.makeTweet(customFormData);
           };
-          fileReader.readAsBinaryString(this.image.item(0));
+          fileReader.readAsArrayBuffer(imageInst);
         } else {
           this.service.makeTweet(customFormData);
         }
+
         this.valContr.reset();
         this.clearTweetForm();
       }
