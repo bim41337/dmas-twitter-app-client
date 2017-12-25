@@ -21,7 +21,7 @@ export class Wall {
     this.valContr.validateTrigger = validateTrigger.manual;
 
     this.evtAgg.subscribe(TweetUpdate, msg => {
-      if (msg.tweetSection === 'user') {
+      if (msg.tweetSection === this.service.USER_LABEL) {
         this.userTweets = this.service.userTweets;
       }
     });
@@ -70,6 +70,10 @@ export class Wall {
     this.message = '';
     this.image = null;
     this.fileInput.value = null;
+  }
+
+  refreshWall() {
+    this.service.getUserTweets();
   }
 
 }

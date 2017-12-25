@@ -1,0 +1,26 @@
+<template bindable="tweets">
+  <require from="./../helpers/date-format"></require>
+  <require from="./../helpers/data-uri"></require>
+
+  <div class="ui compact segments">
+
+    <article repeat.for="tweet of tweets" class="ui compact segment ${$even ? '' : 'secondary'} tweet">
+      <h5 class="ui dividing header">
+        ${tweet.user.nickname}
+        <div class="sub header">
+          ${tweet.creation | dateFormat}
+        </div>
+      </h5>
+      <p>${tweet.message}</p>
+      <div class="ui medium bordered image" if.bind="tweet.image">
+        <img src.bind="tweet.image | dataUri" alt="tweet-image"/>
+      </div>
+    </article>
+    <div class="ui compact segment" show.bind="tweets.length === 0">
+      <i class="meh big icon"></i>
+      No tweets available
+    </div>
+
+  </div>
+
+</template>

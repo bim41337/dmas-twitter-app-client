@@ -2,15 +2,22 @@ import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import AsyncHttpClient from './async-http-client';
-import {LoginStatus, UserUpdate, TweetUpdate} from './messages';
+import {LoginStatus, UserUpdate, TweetUpdate, FollowingsUpdate, ViewUserUpdate} from './messages';
 
 @inject(EventAggregator, AsyncHttpClient, Router)
 export default class TweeterService {
 
+  USER_LABEL = 'user';
+  TWEETS_LABEL = 'tweets';
+  FIREHOSE_LABEL = 'firehose';
+  FOLLOWINGS_LABEL = 'followings';
+
   userData = null;
   userTweets = [];
+  followingsUsers = [];
   followingsTweets = [];
   firehoseTweets = [];
+  viewUserId = null;
 
   constructor(ea, ac, rt) {
     this.evtAgg = ea;
@@ -20,7 +27,6 @@ export default class TweeterService {
 
   makeTweet(formData) {
     this.httpClient.post('/api/tweets', formData).then(res => {
-      console.log(`New tweet ${res.content}`);
       this.getUserTweets();
     });
   }
@@ -44,6 +50,12 @@ export default class TweeterService {
     });
   }
 
+  getViewUser(userId) {
+    this.httpClient.get('/api/users/' + userId).then(res => {
+      this.evtAgg.publish(new ViewUserUpdate(res.content));
+    });
+  }
+
   getUserData(userId, publish) {
     this.httpClient.get('/api/users/' + userId).then(res => {
       console.log('Set active user: ' + res.content.nickname);
@@ -55,10 +67,42 @@ export default class TweeterService {
     });
   }
 
+  getTweets(userId) {
+    console.log('TS: Fetching tweets');
+    this.httpClient.get('/api/tweets/user/' + userId).then(res => {
+      this.evtAgg.publish(new TweetUpdate(this.TWEETS_LABEL, res.content));
+    });
+  }
+
   getUserTweets() {
+    console.log('TS: Fetching user tweets');
     this.httpClient.get('/api/tweets/user/' + this.userData._id).then(res => {
       this.userTweets = res.content;
-      this.evtAgg.publish(new TweetUpdate('user'));
+      this.evtAgg.publish(new TweetUpdate(this.USER_LABEL));
+    });
+  }
+
+  getFollowingsUsers() {
+    console.log('TS: Fetching followings users');
+    this.httpClient.get(`/api/users/${this.userData._id}/followings`).then(res => {
+      this.followingsUsers = res.content;
+      this.evtAgg.publish(new FollowingsUpdate());
+    });
+  }
+
+  getFollowingsTweets() {
+    console.log('TS: Fetching followings tweets');
+    this.httpClient.get(`/api/tweets/user/${this.userData._id}/followings`).then(res => {
+      this.followingsTweets = res.content;
+      this.evtAgg.publish(new TweetUpdate(this.FOLLOWINGS_LABEL));
+    });
+  }
+
+  getFirehoseTweets() {
+    console.log('TS: Fetching firehose tweets');
+    this.httpClient.get('/api/tweets').then(res => {
+      this.firehoseTweets = res.content;
+      this.evtAgg.publish(new TweetUpdate(this.FIREHOSE_LABEL));
     });
   }
 
@@ -68,6 +112,11 @@ export default class TweeterService {
       this.evtAgg.publish(new UserUpdate(this.userData));
       this.router.navigate('wall');
     });
+  }
+
+  viewUser(userId) {
+    this.viewUserId = userId;
+    this.router.navigate('view-user');
   }
 
   login(email, password) {

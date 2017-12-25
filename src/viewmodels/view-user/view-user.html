@@ -1,0 +1,51 @@
+<template>
+  <require from="./../../partials/tweets-list.html"></require>
+
+  <div class="ui raised segment">
+
+    <h3 class="ui dividing header">
+      ${viewUser.nickname}
+      <a href="home" class="ui label">
+        <i class="left arrow icon"></i> Back
+      </a>
+    </h3>
+
+    <div class="ui two column grid">
+
+      <!-- ### TWEETS ### -->
+      <div class="nine wide column">
+        <tweets-list containerless tweets.bind="viewUserTweets"></tweets-list>
+      </div>
+
+      <!-- ### FOLLOW LIST ### -->
+      <aside class="seven wide centered column">
+
+        <div class="ui raised segment">
+
+          <div class="ui card">
+            <div class="content">
+              <i class="right floated user circle big icon"></i>
+              <div class="header">${viewUser.nickname}</div>
+              <div class="meta">${viewUser.email}</div>
+              <div class="description">
+                <i class="twitter large icon"></i>
+                ${viewUserFollowingsCount}
+              </div>
+            </div>
+            <div class="extra centered content">
+              <button click.delegate="doFollowingAction()" class="ui fluid orange labeled icon button">
+                <i class="${isFollowedUser() ? 'minus' : 'plus'} large icon"></i>
+                ${isFollowedUser() ? 'Stop following!' : 'Follow!'}
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </aside>
+
+    </div>
+
+  </div>
+
+</template>

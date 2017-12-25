@@ -12,14 +12,6 @@ export class Home {
   configureRouter(config, router) {
     config.map([
       {
-        route: ['', 'home', 'wall'],
-        name: 'home',
-        moduleId: 'viewmodels/wall/wall',
-        nav: true,
-        title: 'Home',
-        settings: { root: true }
-      },
-      {
         route: 'settings',
         name: 'settings',
         moduleId: 'viewmodels/settings/settings',
@@ -36,6 +28,14 @@ export class Home {
         settings: { root: true }
       },
       {
+        route: ['', 'home', 'wall'],
+        name: 'yourtweets',
+        moduleId: 'viewmodels/wall/wall',
+        nav: true,
+        title: 'Your tweets',
+        settings: { root: false }
+      },
+      {
         route: 'followings',
         name: 'followings',
         moduleId: 'viewmodels/followings/followings',
@@ -49,6 +49,14 @@ export class Home {
         moduleId: 'viewmodels/firehose/firehose',
         nav: true,
         title: 'Firehose',
+        settings: { root: false }
+      },
+      {
+        route: 'view-user',
+        name: 'view-user',
+        moduleId: 'viewmodels/view-user/view-user',
+        nav: false,
+        title: 'View User Timeline',
         settings: { root: false }
       }
     ]);

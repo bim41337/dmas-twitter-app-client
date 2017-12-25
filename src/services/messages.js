@@ -10,8 +10,20 @@ export class UserUpdate {
   }
 }
 
+export class ViewUserUpdate {
+  constructor(userData) {
+    this.userData = userData;
+  }
+}
+
 export class TweetUpdate {
-  constructor(section) {
+  constructor(section, tweets) {
     this.tweetSection = section;
+    this.tweets = tweets;
+  }
+}
+
+export class FollowingsUpdate {
+  constructor() {
   }
 }

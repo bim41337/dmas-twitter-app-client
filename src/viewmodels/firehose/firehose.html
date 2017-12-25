@@ -1,0 +1,43 @@
+<template>
+  <require from="./../../partials/tweets-list.html"></require>
+
+  <div class="ui raised segment">
+
+    <h3 class="ui dividing header">
+      Firehose - All tweets
+      <a click.delegate="refreshFirehose()" class="ui blue label">
+        <i class="refresh icon"></i> Refresh
+      </a>
+    </h3>
+
+    <div class="ui two column grid">
+
+      <!-- ### TWEETS ### -->
+      <div class="nine wide column">
+        <tweets-list containerless tweets.bind="firehoseTweets"></tweets-list>
+      </div>
+
+      <!-- ### CARD ### -->
+      <aside class="seven wide centered column">
+
+        <div class="ui centered raised card">
+          <div class="center aligned image">
+            <i class="massive icons">
+              <i class="sun big orange loading icon"></i>
+              <i class="twitter icon"></i>
+            </i>
+          </div>
+          <div class="center aligned content">
+            <h3 class="ui header">Displaying</h3>
+            <div class="ui orange inverted large header">${firehoseTweets.length}</div>
+            <h3 class="ui header">Messages</h3>
+          </div>
+        </div>
+
+      </aside>
+
+    </div>
+
+  </div>
+
+</template>

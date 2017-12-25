@@ -1,0 +1,42 @@
+<template>
+  <require from="./../../partials/tweets-list.html"></require>
+
+  <div class="ui raised segment">
+
+    <h3 class="ui dividing header">
+      Followings
+      <a click.delegate="refreshFollowings()" class="ui blue label">
+        <i class="refresh icon"></i> Refresh
+      </a>
+    </h3>
+
+    <div class="ui two column grid">
+
+      <!-- ### TWEETS ### -->
+      <div class="nine wide column">
+        <tweets-list containerless tweets.bind="followingsTweets"></tweets-list>
+      </div>
+
+      <!-- ### FOLLOW LIST ### -->
+      <aside class="seven wide centered column">
+
+        <div class="ui raised segment">
+          <h4 class="ui header">Following</h4>
+          <div class="ui middle aligned divided selection link list" if.bind="followingsUsers.length > 0">
+            <a class="item" repeat.for="user of followingsUsers" click.delegate="viewUser(user._id)">
+              <i class="user circle outline large icon"></i>
+              <div class="content">
+                ${user.nickname}
+              </div>
+            </a>
+          </div>
+          <strong if.bind="followingsUsers.length === 0">---</strong>
+        </div>
+
+      </aside>
+
+    </div>
+
+  </div>
+
+</template>
