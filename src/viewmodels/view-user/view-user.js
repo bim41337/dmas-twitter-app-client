@@ -21,27 +21,28 @@ export class ViewUser {
       }
     });
     this.evtAgg.subscribe(ViewUserUpdate, msg => {
-      this.viewUser = msg.userData;
-      this.viewUserFollowingsCount = this.viewUser.followings.length;
+      this.viewUser = msg.userData.user;
+      this.viewUserFollowingsCount = msg.userData.followersCount;
     });
   }
 
-  isFollowedUser() {
-    if (this.isFollowedUser === undefined) {
-      this.isFollowedUser = this.service.followingsUsers.findIndex(usr => usr._id === this.service.viewUserId) !== -1;
-    }
-    return this.isFollowedUser;
+  calcFollowedUser() {
+    this.isFollowedUser = this.service.followingsUsers.findIndex(usr => usr._id === this.service.viewUserId) !== -1;
   }
 
   doFollowingAction() {
-    // check following status and (un-)subscribe
-    console.log('Would do follwing action now ...');
+    if (this.isFollowedUser) {
+      this.service.removeFollowing();
+    } else {
+      this.service.addFollowing();
+    }
   }
 
   attached() {
     let userId = this.service.viewUserId;
     this.service.getTweets(userId);
-    this.service.getViewUser(userId);
+    this.service.getViewUserData(userId);
+    this.calcFollowedUser();
   }
 
 }

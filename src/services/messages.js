@@ -16,6 +16,11 @@ export class ViewUserUpdate {
   }
 }
 
+export class BrowseUsersUpdate {
+  constructor() {
+  }
+}
+
 export class TweetUpdate {
   constructor(section, tweets) {
     this.tweetSection = section;

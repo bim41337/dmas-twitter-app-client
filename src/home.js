@@ -52,6 +52,14 @@ export class Home {
         settings: { root: false }
       },
       {
+        route: 'browse-users',
+        name: 'browse-users',
+        moduleId: 'viewmodels/browse-users/browse-users',
+        nav: true,
+        title: 'Browse Users',
+        settings: { root: false }
+      },
+      {
         route: 'view-user',
         name: 'view-user',
         moduleId: 'viewmodels/view-user/view-user',

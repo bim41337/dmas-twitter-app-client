@@ -1,5 +1,6 @@
 <template>
   <require from="./../../partials/formerror.html"></require>
+  <require from="./../../partials/no-content.html"></require>
   <require from="./../../helpers/date-format"></require>
   <require from="./../../helpers/file-list-to-array"></require>
   <require from="./../../helpers/blob-to-url"></require>
@@ -33,10 +34,7 @@
             <img src.bind="tweet.image | dataUri" alt="tweet-image"/>
           </div>
         </article>
-        <div class="ui compact segment" show.bind="userTweets.length === 0">
-          <i class="meh big icon"></i>
-          No tweets available
-        </div>
+        <no-content if.bind="userTweets.length === 0" containerless text.bind="'No tweets available'"></no-content>
       </div>
 
       <!-- ### FORM ### -->

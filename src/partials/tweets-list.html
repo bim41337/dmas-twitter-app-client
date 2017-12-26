@@ -1,4 +1,5 @@
 <template bindable="tweets">
+  <require from="./no-content.html"></require>
   <require from="./../helpers/date-format"></require>
   <require from="./../helpers/data-uri"></require>
 
@@ -16,10 +17,7 @@
         <img src.bind="tweet.image | dataUri" alt="tweet-image"/>
       </div>
     </article>
-    <div class="ui compact segment" show.bind="tweets.length === 0">
-      <i class="meh big icon"></i>
-      No tweets available
-    </div>
+    <no-content if.bind="tweets.length === 0" containerless text.bind="'No tweets available'"></no-content>
 
   </div>
 

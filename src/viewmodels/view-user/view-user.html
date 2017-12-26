@@ -5,7 +5,7 @@
 
     <h3 class="ui dividing header">
       ${viewUser.nickname}
-      <a href="home" class="ui label">
+      <a route-href="route: yourtweets" class="ui label">
         <i class="left arrow icon"></i> Back
       </a>
     </h3>
@@ -34,8 +34,8 @@
             </div>
             <div class="extra centered content">
               <button click.delegate="doFollowingAction()" class="ui fluid orange labeled icon button">
-                <i class="${isFollowedUser() ? 'minus' : 'plus'} large icon"></i>
-                ${isFollowedUser() ? 'Stop following!' : 'Follow!'}
+                <i class="${isFollowedUser ? 'minus' : 'plus'} large icon"></i>
+                ${isFollowedUser ? 'Stop following!' : 'Follow!'}
               </button>
             </div>
           </div>

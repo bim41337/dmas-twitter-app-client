@@ -2,7 +2,10 @@ import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import AsyncHttpClient from './async-http-client';
-import {LoginStatus, UserUpdate, TweetUpdate, FollowingsUpdate, ViewUserUpdate} from './messages';
+import {
+  LoginStatus, UserUpdate, TweetUpdate, FollowingsUpdate, ViewUserUpdate,
+  BrowseUsersUpdate
+} from './messages';
 
 @inject(EventAggregator, AsyncHttpClient, Router)
 export default class TweeterService {
@@ -14,6 +17,7 @@ export default class TweeterService {
 
   userData = null;
   userTweets = [];
+  browseUsers = [];
   followingsUsers = [];
   followingsTweets = [];
   firehoseTweets = [];
@@ -50,7 +54,7 @@ export default class TweeterService {
     });
   }
 
-  getViewUser(userId) {
+  getViewUserData(userId) {
     this.httpClient.get('/api/users/' + userId).then(res => {
       this.evtAgg.publish(new ViewUserUpdate(res.content));
     });
@@ -58,12 +62,20 @@ export default class TweeterService {
 
   getUserData(userId, publish) {
     this.httpClient.get('/api/users/' + userId).then(res => {
-      console.log('Set active user: ' + res.content.nickname);
-      this.userData = res.content;
+      console.log('Set active user: ' + res.content.user.nickname);
+      this.userData = res.content.user;
       if (publish === true) {
-        this.evtAgg.publish(new UserUpdate(this.userData));
+        this.evtAgg.publish(new UserUpdate(this.userData.user));
       }
       this.getUserTweets();
+    });
+  }
+
+  getBrowseUsers() {
+    console.log('TS: Fetching users for browsing');
+    this.httpClient.get('/api/users').then(res => {
+      this.browseUsers = res.content.filter(usr => usr._id !== this.userData._id);
+      this.evtAgg.publish(new BrowseUsersUpdate());
     });
   }
 
@@ -95,6 +107,20 @@ export default class TweeterService {
     this.httpClient.get(`/api/tweets/user/${this.userData._id}/followings`).then(res => {
       this.followingsTweets = res.content;
       this.evtAgg.publish(new TweetUpdate(this.FOLLOWINGS_LABEL));
+    });
+  }
+
+  addFollowing() {
+    console.log('TS: Adding following entry');
+    this.httpClient.post(`/api/users/${this.userData._id}/followings`, { follId: this.viewUserId }).then(res => {
+      this.router.navigate('followings');
+    });
+  }
+
+  removeFollowing() {
+    console.log('TS: Removing following entry');
+    this.httpClient.put(`/api/users/${this.userData._id}/followings`, { follId: this.viewUserId }).then(res => {
+      this.router.navigate('followings');
     });
   }
 
