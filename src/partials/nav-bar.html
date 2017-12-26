@@ -1,4 +1,4 @@
-<template bindable="router, userData, homeRoot">
+<template bindable="router, userData, homeRoot, adminRoot">
   <require from="./../filters/root-item-filter"></require>
   <require from="./../filters/child-item-filter"></require>
 
@@ -7,9 +7,13 @@
       <img class="logo" src="images/logo-128.png" />
       <span class="custom-main-logo-text">Tweeter</span>
     </div>
-    <div show.bind="userData" class="header item">
+    <div if.bind="userData" class="header item">
       <i class="user circle outline large icon"></i>
       ${userData.nickname}
+    </div>
+    <div if.bind="adminRoot" class="red header item">
+      <i class="settings large red icon"></i>
+      ADM
     </div>
     <div class="right menu">
         <a repeat.for="row of router.navigation | rootItemFilter" class="${row.isActive ? 'active header' : ''} item"  href.bind="row.href">${row.title}</a>

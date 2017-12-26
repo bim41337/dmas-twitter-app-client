@@ -15,7 +15,7 @@ export default class AsyncHttpClient {
     this.evtAgg = ea;
   }
 
-  authenticate(url, user) {
+  authenticate(url, user, isAdmin) {
     return this.http.post(url, user).then(response => {
       const status = response.content;
       if (status.success) {
@@ -24,7 +24,7 @@ export default class AsyncHttpClient {
           configuration.withHeader('Authorization', 'bearer ' + response.content.token);
         });
       }
-      this.evtAgg.publish(new LoginStatus(status));
+      this.evtAgg.publish(new LoginStatus(status, isAdmin));
 
       return response.content.userId;
     }).catch(error => {

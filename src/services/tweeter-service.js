@@ -145,12 +145,36 @@ export default class TweeterService {
     this.router.navigate('view-user');
   }
 
+  getUserStats() {
+    return this.httpClient.get('/api/stats/users');
+  }
+
+  getTweetsStats() {
+    return this.httpClient.get('/api/stats/tweets');
+  }
+
+  getConnectionsStats() {
+    return this.httpClient.get('/api/stats/connections');
+  }
+
   login(email, password) {
     const user = {
       email: email,
       password: password
     };
     this.httpClient.authenticate('/api/users/authenticate', user).then(res => {
+      if (res) {
+        this.getUserData(res, true);
+      }
+    });
+  }
+
+  admLogin(email, password) {
+    const user = {
+      email: email,
+      password: password
+    };
+    this.httpClient.authenticate('/api/users/authenticate', user, true).then(res => {
       if (res) {
         this.getUserData(res, true);
       }

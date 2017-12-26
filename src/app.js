@@ -14,7 +14,7 @@ export class App {
       this.router.reset();
       this.router.navigate('', { replace: true, trigger: false });
       if (msg.status.success === true) {
-        au.setRoot('home');
+        au.setRoot(msg.isAdmin ? 'admin' : 'home');
       } else {
         au.setRoot('app');
       }
@@ -26,7 +26,7 @@ export class App {
       let userId = JSON.parse(localStorage.tweeter).userId;
       this.service.getUserData(userId);
       this.au.setRoot('home').then(() => {
-        this.router.navigateToRoute('home');
+        this.router.navigateToRoute('yourtweets');
       });
     }
   }
@@ -56,6 +56,14 @@ export class App {
         nav: true,
         title: 'Signup',
         settings: { root: true }
+      },
+      {
+        route: 'adm-login',
+        name: 'adm-login',
+        moduleId: 'viewmodels/admin/login/login',
+        nav: false,
+        title: 'Administration login',
+        settings: { root: false }
       }
     ]);
     this.router = router;

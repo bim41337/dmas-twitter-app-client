@@ -1,6 +1,7 @@
 export class LoginStatus {
-  constructor(status) {
+  constructor(status, isAdmin) {
     this.status = status;
+    this.isAdmin = isAdmin;
   }
 }
 
@@ -30,5 +31,13 @@ export class TweetUpdate {
 
 export class FollowingsUpdate {
   constructor() {
+  }
+}
+
+export class AdministrationAction {
+  USER_ACTION = 'user';
+  TWEET_ACTION = 'tweet';
+  constructor(section) {
+    this.section = section;
   }
 }

@@ -1,0 +1,31 @@
+<template>
+
+  <div class="ui raised segment">
+
+    <h3 class="ui dividing header">
+      Tweeter statistics
+      <a click.delegate="refreshView()" class="ui blue label">
+        <i class="refresh icon"></i> Refresh
+      </a>
+    </h3>
+
+    <table class="ui striped celled table">
+      <tbody>
+        <tr>
+          <td>Users registered</td>
+          <td>${usersCount}</td>
+        </tr>
+        <tr>
+          <td>Tweets visible</td>
+          <td>${tweetsCount}</td>
+        </tr>
+        <tr>
+          <td>User connections (Followings)</td>
+          <td>${connectionsCount}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+</template>

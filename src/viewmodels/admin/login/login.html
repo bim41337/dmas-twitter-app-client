@@ -1,5 +1,5 @@
 <template>
-  <require from="./../../partials/formerror.html"></require>
+  <require from="./../../../partials/formerror.html"></require>
 
   <section class="ui raised segment">
     <div class="ui middle aligned two column grid">
@@ -7,26 +7,28 @@
       <div class="column">
         <div class="ui fluid raised form segment">
 
-          <a route-href="adm-login" class="ui red right corner label"><i class="setting icon"></i></a>
           <form submit.delegate="login($event)">
-            <h3 class="ui header">Log in to Tweeter</h3>
-            <div class="field">
-              <label>Email</label>
-              <input placeholder="Email" type="text" value.bind="email & validate">
-            </div>
+            <h3 class="ui header">Administration login</h3>
             <div class="field">
               <label>Password</label>
               <input type="password" value.bind="password & validate">
             </div>
             <button class="ui orange submit button">Login</button>
           </form>
-          <formerror controller.bind="valContr" containerless></formerror>
+          <formerror containerless controller.bind="valContr"></formerror>
 
         </div>
       </div>
 
       <aside class="column">
-        <compose containerless view="./../../partials/tweeter-card.html"></compose>
+        <div class="ui centered raised card">
+          <div class="center aligned image">
+            <i class="settings massive red icon"></i>
+          </div>
+          <div class="center aligned content">
+            <h3 class="ui header">Tweeter administration</h3>
+          </div>
+        </div>
       </aside>
 
     </div>
