@@ -35,9 +35,11 @@ export default class TweeterService {
     });
   }
 
-  removeTweet(tweetId) {
+  removeTweet(tweetId, withoutRefresh) {
     this.httpClient.delete('/api/tweets/' + tweetId).then(res => {
-      this.getUserTweets();
+      if (!withoutRefresh) {
+        this.getUserTweets();
+      }
     });
   }
 
@@ -60,14 +62,16 @@ export default class TweeterService {
     });
   }
 
-  getUserData(userId, publish) {
+  getUserData(userId, publish, withoutFetch) {
     this.httpClient.get('/api/users/' + userId).then(res => {
       console.log('Set active user: ' + res.content.user.nickname);
       this.userData = res.content.user;
       if (publish === true) {
         this.evtAgg.publish(new UserUpdate(this.userData.user));
       }
-      this.getUserTweets();
+      if (withoutFetch) {
+        this.getUserTweets();
+      }
     });
   }
 
@@ -145,6 +149,26 @@ export default class TweeterService {
     this.router.navigate('view-user');
   }
 
+  // ### ADMIN ONLY METHODS ###
+
+  getAllUsers() {
+    console.log('TS: Fetching all users for administration');
+    return this.httpClient.get('/api/users');
+  }
+
+  getAllTweets() {
+    console.log('TS: Fetching all tweets for administration');
+    return this.httpClient.get('/api/tweets');
+  }
+
+  removeUser(userId) {
+    return this.httpClient.delete('/api/users/' + userId);
+  }
+
+  removeAllTweetsForUser(userId) {
+    return this.httpClient.delete('/api/tweets/user/' + userId);
+  }
+
   getUserStats() {
     return this.httpClient.get('/api/stats/users');
   }
@@ -176,7 +200,7 @@ export default class TweeterService {
     };
     this.httpClient.authenticate('/api/users/authenticate', user, true).then(res => {
       if (res) {
-        this.getUserData(res, true);
+        this.getUserData(res, false, true);
       }
     });
   }

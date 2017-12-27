@@ -1,0 +1,44 @@
+<template>
+  <require from="./../../../partials/no-content.html"></require>
+
+  <div class="ui raised segment">
+
+    <h3 class="ui dividing header">
+      User administration
+      <a click.delegate="refreshUsers()" class="ui blue label">
+        <i class="refresh icon"></i> Refresh
+      </a>
+    </h3>
+
+    <button class="ui red labeled small icon button ${selectedUsers.length > 0 ? '' : 'disabled'}" click.delegate="removeSelectedUsers()">
+      <i class="trash icon"></i>
+      Remove selected
+    </button>
+
+    <div class="ui middle aligned divided relaxed list" if.bind="allUsers.length > 0">
+
+      <div class="item" repeat.for="user of allUsers">
+        <div class="right floated content" show.bind="selectedUsers.length === 0">
+          <button class="ui mini red icon button" click.delegate="removeSingleUser(user._id)">
+            <i class="trash icon"></i>
+          </button>
+        </div>
+        <div class="right floated content">
+          <div class="ui checkbox">
+            <input type="checkbox" model.bind="user" checked.bind="selectedUsers">
+            <label>&nbsp;</label>
+          </div>
+        </div>
+        <i class="user circle outline big icon"></i>
+        <div class="content">
+          <h5 class="header">${user.nickname}</h5>
+          <div class="description">${user._id}</div>
+        </div>
+      </div>
+
+    </div>
+    <no-content if.bind="allUsers.length === 0" containerless text.bind="'No users registered'"></no-content>
+
+  </div>
+
+</template>
