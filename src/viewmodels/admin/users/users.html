@@ -10,7 +10,8 @@
       </a>
     </h3>
 
-    <button class="ui red labeled small icon button ${selectedUsers.length > 0 ? '' : 'disabled'}" click.delegate="removeSelectedUsers()">
+    <button class="ui red labeled small icon button ${selectedUsers.length > 0 ? '' : 'disabled'}"
+            click.delegate="removeSelectedUsers()">
       <i class="trash icon"></i>
       Remove selected
     </button>
@@ -18,16 +19,16 @@
     <div class="ui middle aligned divided relaxed list" if.bind="allUsers.length > 0">
 
       <div class="item" repeat.for="user of allUsers">
-        <div class="right floated content" show.bind="selectedUsers.length === 0">
-          <button class="ui mini red icon button" click.delegate="removeSingleUser(user._id)">
-            <i class="trash icon"></i>
-          </button>
-        </div>
         <div class="right floated content">
           <div class="ui checkbox">
             <input type="checkbox" model.bind="user" checked.bind="selectedUsers">
             <label>&nbsp;</label>
           </div>
+          <div class="ui vertical hidden divider"></div>
+          <button class="ui mini red icon button" show.bind="selectedUsers.length === 0"
+                  click.delegate="removeSingleUser(user._id)">
+            <i class="trash icon"></i>
+          </button>
         </div>
         <i class="user circle outline big icon"></i>
         <div class="content">

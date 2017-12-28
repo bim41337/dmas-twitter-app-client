@@ -62,8 +62,10 @@ export class Wall {
   }
 
   removeTweet(tweetId) {
-    console.log(`Removing tweet ${tweetId}`);
-    this.service.removeTweet(tweetId);
+    this.service.removeTweet(tweetId).then(res => {
+      console.log(`Removed tweet ${tweetId}`);
+      this.service.getUserTweets();
+    });
   }
 
   clearTweetForm() {

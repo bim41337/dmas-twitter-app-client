@@ -35,12 +35,8 @@ export default class TweeterService {
     });
   }
 
-  removeTweet(tweetId, withoutRefresh) {
-    this.httpClient.delete('/api/tweets/' + tweetId).then(res => {
-      if (!withoutRefresh) {
-        this.getUserTweets();
-      }
-    });
+  removeTweet(tweetId) {
+    return this.httpClient.delete('/api/tweets/' + tweetId);
   }
 
   register(nickname, email, password) {
@@ -69,7 +65,7 @@ export default class TweeterService {
       if (publish === true) {
         this.evtAgg.publish(new UserUpdate(this.userData.user));
       }
-      if (withoutFetch) {
+      if (!withoutFetch) {
         this.getUserTweets();
       }
     });

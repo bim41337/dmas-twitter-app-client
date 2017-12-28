@@ -37,11 +37,21 @@ export class Users {
   }
 
   removeSelectedUsers() {
+    let promises = [];
     for (let user of this.selectedUsers) {
-      this.removeSingleUser(user._id, true);
+      promises.push(this.service.removeAllTweetsForUser(user._id).then(res => {
+        console.log('Removed all tweets for User-ID ' + user._id);
+        return this.service.removeUser(user._id);
+      }));
     }
-    this.refreshUsers();
-    this.evtAgg.publish(new AdministrationAction('user'));
+    Promise.all(promises).then(res => {
+      console.log(`Bulk removed ${this.selectedUsers.length} tweets`);
+      this.refreshUsers();
+      this.evtAgg.publish(new AdministrationAction('user'));
+    }).catch(err => {
+      console.log('Error during user bulk removal');
+      console.log(err);
+    });
   }
 
   refreshUsers() {

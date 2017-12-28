@@ -1,0 +1,66 @@
+<template>
+  <require from="./../../../partials/no-content.html"></require>
+  <require from="./../../../helpers/date-format"></require>
+  <require from="./../../../helpers/data-uri"></require>
+
+  <div class="ui raised segment">
+
+    <h3 class="ui dividing header">
+      Tweet administration
+      <a click.delegate="refreshTweets()" class="ui blue label">
+        <i class="refresh icon"></i> Refresh
+      </a>
+    </h3>
+
+    <button class="ui red labeled small icon button ${selectedTweets.length > 0 ? '' : 'disabled'}"
+            click.delegate="removeSelectedTweets()">
+      <i class="trash icon"></i>
+      Remove selected
+    </button>
+
+    <table class="ui striped celled table" if.bind="allTweets.length > 0">
+      <thead>
+      <tr>
+        <th class="one wide">&nbsp;</th>
+        <th class="three wide">Data</th>
+        <th class="eleven wide">Content</th>
+        <th class="one wide">&nbsp;</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr repeat.for="tweet of allTweets">
+        <td>${$index + 1}</td>
+        <td>
+          <h5 class="ui header">
+            ${tweet.user.nickname}
+            <div class="sub header">
+              ${tweet.creation | dateFormat}
+            </div>
+          </h5>
+        </td>
+        <td>
+          <p>${tweet.message}</p>
+          <div class="ui divider" if.bind="tweet.image"></div>
+          <div class="ui bordered image" if.bind="tweet.image">
+            <img src.bind="tweet.image | dataUri" alt="tweet-image"/>
+          </div>
+        </td>
+        <td>
+          <div class="ui checkbox">
+            <input type="checkbox" model.bind="tweet" checked.bind="selectedTweets">
+            <label>&nbsp;</label>
+          </div>
+          <div class="ui vertical hidden divider"></div>
+          <button class="ui mini red icon button" show.bind="selectedTweets.length === 0"
+                  click.delegate="removeSingleTweet(tweet._id)">
+            <i class="trash icon"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <no-content if.bind="allTweets.length === 0" containerless text.bind="'No tweets available'"></no-content>
+
+  </div>
+
+</template>
