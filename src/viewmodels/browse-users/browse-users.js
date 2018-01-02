@@ -18,11 +18,7 @@ export class BrowseUsers {
   }
 
   attached() {
-    if (this.service.browseUsers.length === 0) {
-      this.service.getBrowseUsers();
-    } else {
-      this.users = this.service.browseUsers;
-    }
+    this.service.getBrowseUsers();
   }
 
   viewUser(userId) {
